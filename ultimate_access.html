@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Ultimate Access Pass</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'platform-dark': '#000000',
+            'platform-red': '#E50000',
+            'platform-cta': '#FF4500',
+            'platform-text': '#FFFFFF',
+            'platform-secondary': '#CCCCCC',
+          },
+          fontFamily: { sans: ['Inter', 'sans-serif'] },
+          keyframes: {
+            pulse_glow: {
+              '0%,100%': { 'box-shadow': '0 0 10px rgba(255,69,0,0.6)' },
+              '50%': { 'box-shadow': '0 0 30px rgba(255,69,0,1)' }
+            },
+            flash: { '0%,100%': { 'opacity': '0.9' }, '50%': { 'opacity': '1' } }
+          },
+          animation: {
+            pulse_glow: 'pulse_glow 1.5s infinite ease-in-out',
+            flash: 'flash 1s infinite alternate'
+          }
+        }
+      }
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700;900&display=swap" rel="stylesheet">
+  <style>
+    body { background-color: #000; }
+    body.modal-open { overflow: hidden; }
+    .content-card { border: 2px solid #E50000; transition: all 0.2s; }
+    .content-card:hover { transform: scale(1.03); background-color: #1a1a1a; box-shadow: 0 0 15px rgba(229,0,0,0.5);}
+    .modal-overlay { position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); display:flex; justify-content:center; align-items:center; z-index:1000; opacity:0; pointer-events:none; transition:opacity 0.3s ease-in-out; overflow-y:auto;}
+    .modal-overlay.open {opacity:1; pointer-events:auto;}
+    .modal-content {background-color:#1a1a1a; border:4px solid #E50000; max-width:90%; width:450px; max-height:90vh; padding:2rem; border-radius:1rem; box-shadow:0 0 40px rgba(229,0,0,0.7); transform:translateY(-50px); transition:transform 0.3s ease-in-out; margin:20px 0; overflow-y:auto;}
+    .modal-overlay.open .modal-content { transform:translateY(0);}
+    .qr-code {width:220px; height:220px; border:4px solid #E50000; border-radius:12px; background:white; padding:10px; margin:0 auto;}
+    iframe {border-radius:10px;}
+  </style>
+</head>
+<body class="bg-platform-dark text-platform-text font-sans overflow-x-hidden">
+
+<header class="bg-platform-dark border-b-4 border-platform-red py-4 px-8 text-center">
+  <div class="max-w-7xl mx-auto flex justify-center items-center">
+    <div class="text-4xl md:text-5xl font-black text-platform-text">THE <span class="text-platform-cta">ULTIMATE</span> ACCESS</div>
+  </div>
+</header>
+
+<!-- Hero -->
+<div class="flex flex-col items-center justify-center pt-16 pb-12 px-4 md:px-8 text-center bg-platform-dark">
+  <div class="max-w-5xl mx-auto">
+    <p class="text-2xl font-bold tracking-widest uppercase mb-4 text-platform-red animate-flash">WARNING: Uncensored and Unfiltered</p>
+    <h1 class="text-5xl sm:text-7xl lg:text-9xl font-black leading-none mb-8 uppercase">
+      GET INSIDE <span class="text-platform-cta">THE REAL</span> SHOW
+    </h1>
+    <p class="text-xl md:text-3xl mb-12 font-bold text-platform-secondary italic">The content they begged me not to release. Only accessible here, behind the paywall.</p>
+    <button onclick="handlePayment()" class="inline-block w-full sm:w-2/3 lg:w-1/2 px-10 py-6 text-2xl sm:text-3xl font-black uppercase rounded-lg bg-platform-cta text-platform-text shadow-2xl transition-all duration-300 transform hover:scale-[1.02] hover:bg-platform-red hover:shadow-[0_0_50px_rgba(255,69,0,0.9)] focus:outline-none focus:ring-4 focus:ring-platform-cta focus:ring-opacity-80 animate-pulse_glow">
+      JOIN NOW & START STREAMING!
+    </button>
+    <p class="mt-4 text-base text-platform-secondary font-medium">1,000+ happy members already enjoying private content.</p>
+  </div>
+</div>
+
+<!-- Features -->
+<section class="py-16 px-4 md:px-8 bg-platform-dark">
+  <div class="max-w-7xl mx-auto text-center">
+    <h2 class="text-4xl md:text-5xl font-extrabold mb-12 text-platform-red uppercase">WHAT YOU'RE MISSING:</h2>
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+
+      <div class="p-6 bg-platform-dark rounded-md content-card">
+        <img src="https://i.postimg.cc/MKd5q35Z/IMG-20250927-WA0552.webp" loading="lazy" width="400" height="600" alt="Raw, high definition exclusive content" class="w-full h-auto mb-4 rounded-lg object-cover border-2 border-platform-red">
+        <h3 class="text-xl font-bold mb-3 text-platform-cta uppercase">RAW, HD EXCLUSIVES</h3>
+        <p class="text-platform-secondary">Full-length scenes delivered weekly in crystal-clear quality. No cuts, no limits.</p>
+      </div>
+
+      <div class="p-6 bg-platform-dark rounded-md content-card">
+        <img src="https://i.postimg.cc/52QCTskq/IMG-20250927-WA0553.webp" loading="lazy" width="400" height="600" alt="Late night live shows" class="w-full h-auto mb-4 rounded-lg object-cover border-2 border-platform-red">
+        <h3 class="text-xl font-bold mb-3 text-platform-cta uppercase">LATE NIGHT LIVE SHOWS</h3>
+        <p class="text-platform-secondary">Unscheduled streams with direct, unfiltered audience interaction. Never miss a moment.</p>
+      </div>
+
+      <div class="p-6 bg-platform-dark rounded-md content-card">
+        <div style="padding:75% 0 0 0;position:relative;">
+          <iframe src="https://player.vimeo.com/video/1122682359?badge=0&autopause=0&player_id=0&app_id=58479" loading="lazy" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Exclusive Video"></iframe>
+        </div>
+        <script src="https://player.vimeo.com/api/player.js"></script>
+        <h3 class="text-xl font-bold mb-3 text-platform-cta uppercase">PRIVATE VIDEO EXCLUSIVE</h3>
+        <p class="text-platform-secondary">Watch the uncensored behind-the-scenes action anytime, anywhere.</p>
+      </div>
+
+      <div class="p-6 bg-platform-dark rounded-md content-card">
+        <a href='https://postimg.cc/kDWXNjy3' target='_blank'>
+          <img src='https://i.postimg.cc/qB5hTShR/IMG-20250929-031551-973.jpg' loading="lazy" width="400" height="600" alt='IMG-20250929-031551-973' class="w-full h-auto mb-4 rounded-lg object-cover border-2 border-platform-red"/>
+        </a>
+        <h3 class="text-xl font-bold mb-3 text-platform-cta uppercase">MEMBER-ONLY IMAGE</h3>
+        <p class="text-platform-secondary">Exclusive snapshot only visible to private members of our community.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Teaser -->
+<section class="py-16 px-4 md:px-8 bg-platform-dark/70 border-t-2 border-platform-red">
+  <div class="max-w-4xl mx-auto text-center">
+    <h2 class="text-4xl md:text-5xl font-extrabold mb-4 text-platform-text uppercase">✨ PREVIEW THE EXPERIENCE</h2>
+    <p class="text-lg md:text-xl font-bold mb-6 text-platform-red">Enter a mood or scenario to get a personalized teaser from our private community copywriter.</p>
+
+    <!-- Search input -->
+    <div class="flex flex-col sm:flex-row gap-4 mb-6">
+      <input type="search" id="teaser-prompt" placeholder="Type your scenario..." class="flex-grow p-4 bg-platform-dark text-platform-text border border-platform-red rounded-lg focus:outline-none focus:ring-2 focus:ring-platform-cta">
+      <button onclick="generateTeaser()" class="px-8 py-4 bg-platform-red text-platform-text font-bold uppercase rounded-lg transition-colors hover:bg-platform-cta">✨ Generate</button>
+    </div>
+
+    <!-- Quick moods -->
+    <div class="flex flex-wrap justify-center gap-2 mb-6">
+      <button class="bg-platform-red text-platform-text px-4 py-2 rounded hover:bg-platform-cta transition" onclick="document.getElementById('teaser-prompt').value='Secret office encounter'; generateTeaser();">Secret Office</button>
+      <button class="bg-platform-red text-platform-text px-4 py-2 rounded hover:bg-platform-cta transition" onclick="document.getElementById('teaser-prompt').value='Late-night rendezvous'; generateTeaser();">Late-night</button>
+      <button class="bg-platform-red text-platform-text px-4 py-2 rounded hover:bg-platform-cta transition" onclick="document.getElementById('teaser-prompt').value='Forbidden meeting'; generateTeaser();">Forbidden</button>
+      <button class="bg-platform-red text-platform-text px-4 py-2 rounded hover:bg-platform-cta transition" onclick="document.getElementById('teaser-prompt').value='Private camera session'; generateTeaser();">Private Cam</button>
+    </div>
+
+    <div id="teaser-result" class="min-h-[6rem] p-4 text-left">
+      <p class="text-platform-secondary">Your custom teaser will appear here...</p>
+    </div>
+    <p class="mt-2 text-sm text-platform-secondary">Join 1,000+ happy members already in our private community!</p>
+  </div>
+</section>
+
+<!-- Subscribe -->
+<section class="py-16 px-4 md:px-8 bg-platform-red/10 border-t-4 border-platform-red">
+  <div class="max-w-4xl mx-auto text-center p-6 md:p-12 rounded-lg bg-platform-dark/70 border border-platform-red shadow-2xl">
+    <h2 class="text-4xl md:text-5xl font-black mb-4 text-platform-text uppercase">STOP WAITING. START WATCHING.</h2>
+    <p class="text-2xl mb-8 font-bold text-platform-secondary">Secure your pass for just <span class="text-platform-red">INR 199 per month</span> and unlock everything right now.</p>
+    <button onclick="handlePayment()" class="inline-block w-full sm:w-2/3 px-10 py-5 text-2xl font-black uppercase rounded-lg bg-platform-cta text-platform-text shadow-2xl transition-all duration-300 transform hover:scale-105 hover:bg-platform-red hover:shadow-[0_0_60px_rgba(255,69,0,0.9)] focus:outline-none focus:ring-4 focus:ring-platform-cta focus:ring-opacity-80"><span class="animate-flash">ACTIVATE MY FULL ACCESS NOW</span></button>
+    <p class="mt-6 text-sm text-platform-secondary"><svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 inline mr-1 text-platform-red" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-4-4H8a4 4 0 00-4 4v3" /></svg> 100% Secure Transaction.</p>
+  </div>
+</section>
+
+<footer class="py-4 text-center text-platform-secondary text-xs border-t border-platform-red/50">
+  <div class="max-w-7xl mx-auto px-4">
+    <p>You must be 18 years or older to subscribe. &copy; 2024 The Ultimate Access. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Payment Modal -->
+<div id="payment-modal" class="modal-overlay">
+  <div class="modal-content text-center relative">
+    <button onclick="closePaymentModal()" class="absolute top-4 right-4 text-platform-secondary hover:text-platform-text"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
+    <h3 class="text-3xl font-black mb-6 text-platform-red uppercase">Payment Options</h3>
+    <p class="text-platform-secondary mb-4">Scan the QR code below or use UPI to complete your payment securely.</p>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?pa=anisoni442000-3@okhdfcbank&pn=Anmol&am=199&cu=INR" onerror="handleQRError(this)" alt="QR Code for Payment" class="qr-code mb-6">
+    <p class="text-platform-secondary mb-4">UPI ID: <span class="text-platform-text font-bold">anisoni442000-3@okhdfcbank</span></p>
+    <p class="text-sm text-platform-secondary">Amount: <span class="text-platform-red font-bold">INR 199</span></p>
+    <button onclick="closePaymentModal()" class="mt-6 px-6 py-3 bg-platform-red text-platform-text rounded-lg hover:bg-platform-cta">Close</button>
+  </div>
+</div>
+
+<script>
+  function handlePayment(){document.getElementById('payment-modal').classList.add('open');document.body.classList.add('modal-open');}
+  function closePaymentModal(){document.getElementById('payment-modal').classList.remove('open');document.body.classList.remove('modal-open');}
+  function handleQRError(img){img.onerror=null;img.src='https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=upi://pay?pa=anisoni442000-3@okhdfcbank&pn=Anmol&am=199&cu=INR';}
+  function generateTeaser(){
+    const prompt=document.getElementById('teaser-prompt').value.trim();
+    const result=document.getElementById('teaser-result');
+    if(!prompt){result.innerHTML="<p class='text-platform-secondary'>Please enter a scenario...</p>";return;}
+    result.innerHTML="<p class='text-platform-text font-bold'>🔥 Teaser: "+prompt+" unfolds inside the private room. Members only.</p>";
+  }
+</script>
+
+</body>
+</html>
